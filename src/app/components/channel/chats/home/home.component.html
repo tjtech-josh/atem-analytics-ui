@@ -1,0 +1,51 @@
+<div class="card">
+    <span class="text-3xl">Chat Home</span>
+</div>
+<div class="grid">
+    <div class="col-6">
+        <div class="card">
+            <h5>Chat Prompt</h5>
+            <textarea
+                rows="5"
+                cols="30"
+                pInputTextarea
+                class="p-inputtextarea p-inputtext p-component p-element w-full"
+                [(ngModel)]="chatPrompt">
+            </textarea>
+            <h5>Chat Input Text</h5>
+            <textarea
+                rows="15"
+                cols="30"
+                pInputTextarea
+                class="p-inputtextarea p-inputtext p-component p-element w-full"
+                [(ngModel)]="chatText">
+            </textarea>
+            <div class="mt-2 text-right">
+                <p-button
+                    label="Submit"
+                    [loading]="loading"
+                    (onClick)="submitChat()"
+                />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div>
+                <p-messages
+                    [(value)]="messages"
+                    [closable]="true" />
+            </div>
+            <div *ngIf="chatResponse === null">
+                <h5>Nothing to report yet!</h5>
+            </div>
+            <div *ngIf="chatResponse !== null">
+                <h5>Chat Prompt</h5>
+                {{chatResponse?.prompt}}
+                <h5>Chat Response</h5>
+                {{chatResponse?.responseText}}
+            </div>
+        </div>
+    </div>
+</div>

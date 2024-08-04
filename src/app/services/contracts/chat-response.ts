@@ -1,0 +1,20 @@
+export interface ChatResponse {
+    id: string,
+    prompt: string,
+    responseText?: string,
+    errorMessage?: string,
+    currentStage: number,
+    stageUpdatedAt?: Date,
+    stageUpdatedBy?: string,
+    validated: number,
+    lastValidatedAt?: Date,
+    lastValidatedBy?: string,
+    processed: number,
+    lastProcessedAt?: Date,
+    lastProcessedBy?: string,
+    deleted?: number,
+    deletedAt?: Date,
+    deletedBy?: string,
+    createdAt: Date,
+    createdBy: string
+}

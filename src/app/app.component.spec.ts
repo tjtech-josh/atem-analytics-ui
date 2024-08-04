@@ -5,7 +5,7 @@ import { AppTopBarComponent } from './layout/app.topbar.component';
 import { AppFooterComponent } from './layout/app.footer.component';
 import { AppMenuComponent } from './layout/app.menu.component';
 import { MenuService } from './layout/app.menu.service';
-import { TopbarMenuService } from './layout/app.topbarmenu.service';
+//import { TopbarMenuService } from './layout/app.topbarmenu.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -17,7 +17,7 @@ describe('AppComponent', () => {
           AppMenuComponent,
           AppFooterComponent
       ],
-        providers: [MenuService, TopbarMenuService]
+        providers: [MenuService]
     }).compileComponents();
   }));
   it('should create the app', async(() => {

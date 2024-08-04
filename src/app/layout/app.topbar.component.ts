@@ -1,6 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
+import {DataService} from "../services/data-service";
+import {MenuService} from "./app.menu.service";
+import {KeycloakService} from "keycloak-angular";
+import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-topbar',
@@ -16,21 +20,13 @@ export class AppTopBarComponent {
 
     searchActive: boolean = false;
 
-    constructor(public layoutService: LayoutService) {}
+    constructor(
+        public layoutService: LayoutService,
+        protected dataService: DataService,
+        protected keycloakService: KeycloakService) {}
 
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();
-    }
-
-    activateSearch() {
-        this.searchActive = true;
-        setTimeout(() => {
-            this.searchInput.nativeElement.focus();
-        }, 100);
-    }
-
-    deactivateSearch() {
-        this.searchActive = false;
     }
 
     removeTab(event: MouseEvent, item: MenuItem, index: number) {
@@ -54,5 +50,11 @@ export class AppTopBarComponent {
 
     get tabs(): MenuItem[] {
         return this.layoutService.tabs;
+    }
+
+    async logout() {
+        const redirectUrl = environment.keycloakRedirectUri + '#/login';
+        console.log(redirectUrl);
+        await this.keycloakService.logout(redirectUrl);
     }
 }
