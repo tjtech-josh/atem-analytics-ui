@@ -6,38 +6,55 @@
         <ng-template pTemplate="header">
             <tr>
                 <th>Prompt</th>
-                <th>Text</th>
+                <th>Input Text</th>
+                <th>Response</th>
                 <th>Created By</th>
                 <th>Created At</th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-chat>
             <tr>
-                <td>{{ chat.prompt }}</td>
-                <td>{{ chat.responseText }}</td>
-                <td>{{ chat.createdBy }}</td>
+                <td>{{ formatterService.truncate(chat.prompt, 50) }}</td>
+                <td>{{ formatterService.truncate(chat.inputText, 50) }}</td>
+                <td>{{ formatterService.truncate(chat.responseText, 50) }}</td>
+                <td>{{ chat.createdByName }}</td>
                 <td>{{ chat.createdAt }}</td>
                 <td>
                     <p-button
                         label="View"
                         severity="info"
+                        (onClick)="onClickView(chat)"
                     />
                 </td>
                 <td>
                     <p-button
                         label="Validate"
                         severity="warning"
+                        [disabled]="true"
                     />
                 </td>
                 <td>
                     <p-button
                         label="Delete"
                         severity="danger"
+                        [disabled]="true"
                     />
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+<p-dialog header="View" [modal]="true" [(visible)]="showDialog" [style]="{ width: '50rem' }">
+    <h5>Chat Prompt</h5>
+    {{chat?.prompt}}
+    <h5>Input Text</h5>
+    {{chat?.inputText}}
+    <h5>Chat Response</h5>
+    {{chat?.responseText}}
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (onClick)="showDialog = false" />
+    </div>
+</p-dialog>

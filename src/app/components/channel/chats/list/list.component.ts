@@ -6,6 +6,8 @@ import {MessagesModule} from "primeng/messages";
 import {TableModule} from "primeng/table";
 import {ChatResponse} from "../../../../services/contracts/chat-response";
 import {ApiService} from "../../../../services/api-service";
+import {FormatterService} from "../../../../services/formatter-service";
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
     selector: 'chat-list',
@@ -16,14 +18,18 @@ import {ApiService} from "../../../../services/api-service";
         ButtonModule,
         MessagesModule,
         TableModule,
+        DialogModule,
     ],
+    providers: [FormatterService],
     templateUrl: './list.component.html',
 })
 export class ListComponent  implements OnInit {
 
     chats: ChatResponse[] = []
+    chat: ChatResponse | null = null
+    showDialog: boolean = false
 
-    constructor(private api: ApiService) {
+    constructor(private api: ApiService, protected formatterService: FormatterService) {
 
     }
 
@@ -35,6 +41,19 @@ export class ListComponent  implements OnInit {
             },
             error: (error) => {
                 console.error(error)
+            }
+        })
+    }
+
+    onClickView(chat: ChatResponse) {
+        console.log(chat);
+        this.api.getChat(chat.id).subscribe({
+            next: (data) => {
+                this.chat = data
+                this.showDialog = true
+            },
+            error: (error) => {
+                alert(error.detail)
             }
         })
     }

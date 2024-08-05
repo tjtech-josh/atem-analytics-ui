@@ -5,6 +5,15 @@
     <div class="col-6">
         <div class="card">
             <h5>Chat Prompt</h5>
+            <p-dropdown
+                [options]="prompts"
+                [(ngModel)]="selectedPrompt"
+                placeholder="Choose a prompt..."
+                [filter]="true"
+                filterBy="prompt"
+                optionLabel="displayName"
+                styleClass="w-full mb-3"
+            />
             <textarea
                 rows="5"
                 cols="30"
