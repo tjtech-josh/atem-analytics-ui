@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
         this.api.getChatsPrompts().subscribe({
             next: (data) => {
                 data.map(p => {
-                    p.displayName = this.formatterService.truncate(p.prompt, 150)
+                    p.displayName = this.formatterService.truncate(p.prompt, 75)
                 })
                 this.prompts = data
             },
@@ -78,4 +78,8 @@ export class HomeComponent implements OnInit {
         })
     }
 
+    onChangePromptSelect() {
+        this.chatPrompt = this.selectedPrompt?.prompt ?? ''
+        this.chatText = this.selectedPrompt?.inputText ?? ''
+    }
 }
