@@ -17,6 +17,16 @@ export class ApiService {
         return this.http.get<ChatResponse>(url)
     }
 
+    patchValidateChat(id: string) {
+        const url = environment.apiUrlChatService + '/' + id + '/validate'
+        return this.http.patch<any>(url, {})
+    }
+
+    deleteChat(id: string) {
+        const url = environment.apiUrlChatService + '/' + id
+        return this.http.delete<any>(url)
+    }
+
     getChats() {
         const url = environment.apiUrlChatService
         return this.http.get<ChatResponse[]>(url)

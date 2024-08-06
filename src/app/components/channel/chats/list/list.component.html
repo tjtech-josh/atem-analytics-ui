@@ -8,11 +8,8 @@
                 <th>Prompt</th>
                 <th>Input Text</th>
                 <th>Response</th>
-                <th>Created By</th>
-                <th>Created At</th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Stage</th>
+                <th colspan="6"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-chat>
@@ -20,27 +17,31 @@
                 <td>{{ formatterService.truncate(chat.prompt, 50) }}</td>
                 <td>{{ formatterService.truncate(chat.inputText, 50) }}</td>
                 <td>{{ formatterService.truncate(chat.responseText, 50) }}</td>
-                <td>{{ chat.createdByName }}</td>
-                <td>{{ chat.createdAt }}</td>
-                <td>
+                <td class="text-center">{{ chat.currentStage }}</td>
+                <td class="text-center" style="cursor:pointer" (click)="onClickView(chat)">
+                    <i class="pi pi-eye" pTooltip="View"></i>
+                </td>
+                <td class="text-center">
+                   <i class="pi pi-user" pTooltip="Created By: {{ chat.createdByName }}"></i>
+                </td>
+                <td class="text-center">
+                    <i class="pi pi-clock" pTooltip="Created At: {{ chat.createdAt }}"></i>
+                </td>
+                <td class="text-center">
                     <p-button
-                        label="View"
-                        severity="info"
-                        (onClick)="onClickView(chat)"
+                        icon="pi pi-check-circle"
+                        [disabled]="chat.validated"
+                        severity="{{chat.validated ? 'success' : 'secondary'}}"
+                        pTooltip="{{chat.validated ? 'Validated' : 'Not Validated'}}"
+                        (onClick)="onClickConfirmValidate($event, chat)"
                     />
                 </td>
-                <td>
+                <td class="text-center">
                     <p-button
-                        label="Validate"
-                        severity="warning"
-                        [disabled]="true"
-                    />
-                </td>
-                <td>
-                    <p-button
-                        label="Delete"
+                        icon="pi pi-times-circle"
                         severity="danger"
-                        [disabled]="true"
+                        pTooltip="Delete"
+                        (onClick)="onClickConfirmDelete($event, chat)"
                     />
                 </td>
             </tr>
@@ -48,6 +49,10 @@
     </p-table>
 </div>
 <p-dialog header="View" [modal]="true" [(visible)]="showDialog" [style]="{ width: '50rem' }">
+    <div class="text-xl p-0 mb-1"><span class="font-semibold">Created by</span>: {{chat?.createdByName}}</div>
+    <div class="text-xl p-0 mb-1"><span class="font-semibold">Created at</span>: {{chat?.createdAt}}</div>
+    <div class="text-xl p-0 mb-1"><span class="font-semibold">Validated</span>: <p-tag severity="success" value="Yes" *ngIf="chat?.validated"/> <p-tag severity="warning" value="No" *ngIf="!chat?.validated"/></div>
+    <div class="text-xl p-0 mb-2"><span class="font-semibold">Life cycle stage</span>: {{chat?.currentStage}}</div>
     <h5>Chat Prompt</h5>
     {{chat?.prompt}}
     <h5>Input Text</h5>
@@ -55,6 +60,7 @@
     <h5>Chat Response</h5>
     {{chat?.responseText}}
     <div class="flex justify-content-end gap-2">
-        <p-button label="Cancel" severity="secondary" (onClick)="showDialog = false" />
+        <p-button label="Close" severity="secondary" (onClick)="showDialog = false" />
     </div>
 </p-dialog>
+<p-confirmDialog />
